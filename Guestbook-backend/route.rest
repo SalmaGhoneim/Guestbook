@@ -1,0 +1,26 @@
+GET http://localhost:3000/messages
+
+###
+GET http://localhost:3000/messages/5eb5bdf67988351302b77beb
+
+###
+POST http://localhost:3000/messages
+Content-Type: application/json
+
+{
+    "text": "New message"
+}
+
+###
+DELETE http://localhost:3000/messages/5eb5bdf67988351302b77beb
+
+###
+
+PATCH http://localhost:3000/messages/5eb5ce6f537b1b222914392e
+Content-Type: application/json
+
+{
+    "text": "Updated message 3"
+}
+
+

@@ -16,12 +16,12 @@ const db = mongoose.connection;
 db.on("error", error => console.log(error));
 db.once("open", () => console.log("Connected to Mongoose"));
 
-// Setting up route for "/"
-const guestbookRouter = require("./routes");
-app.use("/", guestbookRouter);
-
 // Accepting json
 app.use(express.json());
+
+// Setting up route for "/"
+const guestbookRouter = require("./routes/messages");
+app.use("/messages", guestbookRouter);
 
 // Setting up port
 app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
