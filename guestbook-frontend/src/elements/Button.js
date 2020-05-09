@@ -7,7 +7,13 @@ export default styled.button`
   outline: "none";
   border-radius: 5px;
   padding: 7px 5px;
+  cursor: pointer;
+  height: ${props => props.height};
   color: ${props => props.theme.ghostWhite};
+  width: ${props => props.width};
+  margin: ${props => props.margin};
+  letter-spacing: ${props => props.letterSpacing};
+
   ${props =>
     props.color &&
     css`

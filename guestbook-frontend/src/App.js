@@ -8,10 +8,10 @@ import AuthenticatedApp from "./screens/AuthenticatedApp";
 import UnauthenticatedApp from "./screens/UnauthenticatedApp";
 
 const theme = {
-  primary: "#A4C2F7",
-  secondary: "#3A4F41",
-  secondary2: "#12263A",
-  ghostWhite: "#F7F7FF"
+  primary: "#478ffb",
+  secondary: "#12263A",
+  ghostWhite: "#F7F7FF",
+  font: "Titillium Web"
 };
 
 function AppSwitch() {
