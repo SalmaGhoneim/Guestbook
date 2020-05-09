@@ -20,7 +20,7 @@ const Login = props => {
     <FlexContainer
       alignItems="center"
       justifyContent="center"
-      height="100vh"
+      minHeight="100vh"
       className={props.className}
     >
       <form className="contentsDisplay" onSubmit={login}>
