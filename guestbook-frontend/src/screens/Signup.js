@@ -5,6 +5,7 @@ import Button from "../elements/Button";
 import logo from "../assets/logo.svg";
 import { NavLink } from "react-router-dom";
 import FlexContainer from "../elements/FlexContainer";
+import Image from "../elements/Image";
 
 const Signup = props => {
   const [newUserData, setNewUserData] = useState({
@@ -42,7 +43,13 @@ const Signup = props => {
           direction="column"
           className="signupContainer"
         >
-          <img className="logo" src={logo} alt="guestbook logo" />
+          <Image
+            height="200px"
+            width="auto"
+            className="logo"
+            src={logo}
+            alt="guestbook logo"
+          />
           <TextField
             autoFocus
             required
@@ -126,10 +133,6 @@ export default styled(Signup)`
     background: ${props => props.theme.ghostWhite};
     border-radius: 10px;
     box-sizing: content-box;
-  }
-  .logo {
-    height: 200px;
-    width: auto;
   }
   .textContainer {
     font-family: ${props => props.theme.font};

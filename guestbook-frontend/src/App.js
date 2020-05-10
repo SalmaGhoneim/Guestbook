@@ -11,7 +11,7 @@ const theme = {
   primary: "#478ffb",
   secondary: "#12263A",
   ghostWhite: "#F7F7FF",
-  font: "Titillium Web"
+  font: "Philosopher"
 };
 
 function AppSwitch() {

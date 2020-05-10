@@ -3,7 +3,14 @@ import React, { createContext, useState } from "react";
 export const AuthenticationContext = createContext();
 
 const AuthenticationContextProvider = props => {
-  const user = null;
+  const user = {
+    name: "Salma Ghoneim",
+    username: "salma_ghoneim",
+    age: 23,
+    email: "salmaghoneim97@gmail.com"
+  };
+  // const user = null;
+
   //   const [user, setUser] = useState(null);
   //   const [fetched, setFetched] = useState(false);
 
