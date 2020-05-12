@@ -3,26 +3,37 @@ import styled from "styled-components";
 import TextField from "../elements/Textfield";
 import Button from "../elements/Button";
 import logo from "../assets/logo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import FlexContainer from "../elements/FlexContainer";
 import Image from "../elements/Image";
+import { signupRequest } from "../helpers/functions";
 
-const Signup = props => {
+const Signup = (props) => {
   const [newUserData, setNewUserData] = useState({
     name: "",
     username: "",
     email: "",
     age: 0,
-    password: ""
+    password: "",
+    password1: "",
   });
-  const signup = e => {
-    console.log("here");
+  const [success, setSuccess] = useState(false);
+
+  const signup = (e) => {
     e.preventDefault();
     const validEmail = newUserData.email.match(
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     );
-    if (validEmail) {
-      console.log("accepted");
+    if (
+      validEmail &&
+      newUserData.password === newUserData.password1 &&
+      newUserData.password.length >= 6
+    ) {
+      signupRequest(newUserData)
+        .then((response) => {
+          setSuccess(true);
+        })
+        .catch((error) => {});
     }
   };
   return (
@@ -56,7 +67,7 @@ const Signup = props => {
             width="90%"
             type="text"
             value={newUserData.name ? newUserData.name : ""}
-            onChange={e =>
+            onChange={(e) =>
               setNewUserData({ ...newUserData, name: e.target.value })
             }
             placeholder="Name"
@@ -66,7 +77,7 @@ const Signup = props => {
             width="90%"
             type="text"
             value={newUserData.username ? newUserData.username : ""}
-            onChange={e =>
+            onChange={(e) =>
               setNewUserData({ ...newUserData, username: e.target.value })
             }
             placeholder="Username"
@@ -76,10 +87,10 @@ const Signup = props => {
             width="90%"
             type="email"
             value={newUserData.email ? newUserData.email : ""}
-            onChange={e =>
+            onChange={(e) =>
               setNewUserData({ ...newUserData, email: e.target.value })
             }
-            placeholder="email"
+            placeholder="Email"
           />
           <TextField
             required
@@ -87,7 +98,7 @@ const Signup = props => {
             type="number"
             max={100}
             value={newUserData.age ? newUserData.age : ""}
-            onChange={e =>
+            onChange={(e) =>
               setNewUserData({ ...newUserData, age: e.target.value })
             }
             placeholder="Age"
@@ -97,10 +108,20 @@ const Signup = props => {
             width="90%"
             type="password"
             value={newUserData.password ? newUserData.password : ""}
-            onChange={e =>
+            onChange={(e) =>
               setNewUserData({ ...newUserData, password: e.target.value })
             }
             placeholder="Password"
+          />
+          <TextField
+            required
+            width="90%"
+            type="password"
+            value={newUserData.password1 ? newUserData.password1 : ""}
+            onChange={(e) =>
+              setNewUserData({ ...newUserData, password1: e.target.value })
+            }
+            placeholder="Retype your password"
           />
           <Button
             type="submit"
@@ -120,30 +141,31 @@ const Signup = props => {
           </FlexContainer>
         </FlexContainer>
       </form>
+      {!success ? null : <Redirect to="/login" />}
     </FlexContainer>
   );
 };
 
 export default styled(Signup)`
-  background: ${props => props.theme.secondary};
+  background: ${(props) => props.theme.secondary};
   .contentsDisplay {
     display: contents;
   }
   .signupContainer {
-    background: ${props => props.theme.ghostWhite};
+    background: ${(props) => props.theme.ghostWhite};
     border-radius: 10px;
     box-sizing: content-box;
   }
   .textContainer {
-    font-family: ${props => props.theme.font};
+    font-family: ${(props) => props.theme.font};
   }
   .text {
     font-size: 0.8rem;
     margin: 10px 2px;
-    color: ${props => props.theme.secondary};
+    color: ${(props) => props.theme.secondary};
   }
   .link {
-    color: ${props => props.theme.primary};
+    color: ${(props) => props.theme.primary};
     text-decoration: none;
   }
 `;

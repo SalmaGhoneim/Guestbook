@@ -1,75 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FlexContainer from "../elements/FlexContainer";
 import MessageCard from "./MessageCard";
 import styled from "styled-components";
+import { getMessages } from "../helpers/functions";
+import { AuthenticationContext } from "../contexts/AuthenticationContext";
+import Image from "../elements/Image";
+import add from "../assets/add.svg";
+import NewMessageCard from "./NewMessageCard";
 
-const MessagesContainer = props => {
-  const [messages, setMessages] = useState([
-    {
-      id: "1",
-      from: "Salma",
-      text:
-        "Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats",
-      date: Date.now(),
-      replies: [
-        {
-          from: "Sugar",
-          text:
-            "thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe "
-        },
-        { from: "babe", text: "urw" },
-        {
-          from: "Sugar",
-          text:
-            "thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe "
-        },
-        { from: "babe", text: "urw" }
-      ]
-    },
-    {
-      id: "2",
-      from: "Sugar",
-      text: "Thanks baby",
-      date: Date.now(),
-      replies: []
-    },
-    {
-      id: "1",
-      from: "Salma",
-      text:
-        "Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats Congrats",
-      date: Date.now(),
-      replies: [
-        {
-          from: "Sugar",
-          text:
-            "thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe "
-        },
-        { from: "babe", text: "urw" },
-        {
-          from: "Sugar",
-          text:
-            "thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe thanks babe "
-        },
-        { from: "babe", text: "urw" }
-      ]
-    },
+const MessagesContainer = (props) => {
+  const [messages, setMessages] = useState([]);
+  const [creatingNewMessage, setCreatingNewMessage] = useState(false);
+  const { loading } = useContext(AuthenticationContext);
 
-    {
-      id: "2",
-      from: "Sugar",
-      text: "Thanks baby",
-      date: Date.now(),
-      replies: []
-    },
-    {
-      id: "2",
-      from: "Sugar",
-      text: "Thanks baby",
-      date: Date.now(),
-      replies: []
-    }
-  ]);
+  useEffect(() => {
+    if (loading) return;
+    getMessages()
+      .then((response) => {
+        setMessages(response.data);
+      })
+      .catch((
+        error
+        //display problem
+      ) => console.log(error));
+  }, [loading]);
   return (
     <FlexContainer
       direction="row"
@@ -77,8 +31,19 @@ const MessagesContainer = props => {
       justifyContent="center"
       className={props.className}
     >
-      {messages.map(message => (
-        <MessageCard key={message.id} data={message} />
+      <FlexContainer width="100%">
+        <Image
+          width="40px"
+          height="40px"
+          className={creatingNewMessage ? "disabled" : "add"}
+          src={add}
+          alt="create new message"
+          onClick={() => setCreatingNewMessage(true)}
+        />
+      </FlexContainer>
+      {!creatingNewMessage ? null : <NewMessageCard />}
+      {messages.map((message) => (
+        <MessageCard key={message._id} data={message} />
       ))}
     </FlexContainer>
   );
@@ -89,4 +54,18 @@ export default styled(MessagesContainer)`
   width: 100%;
   max-width: 900px;
   margin-bottom: 20px;
+  .add {
+    margin: 10px 5px 0px auto;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background: ${(props) => props.theme.secondary};
+    }
+  }
+  .disabled {
+    margin: 10px 5px 0px auto;
+    border-radius: 50%;
+    padding: 5px;
+  }
 `;

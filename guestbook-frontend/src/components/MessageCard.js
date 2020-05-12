@@ -4,17 +4,21 @@ import FlexContainer from "../elements/FlexContainer";
 import Image from "../elements/Image";
 import person from "../assets/person.svg";
 import arrowDown from "../assets/arrowDown.svg";
-import edit from "../assets/edit.svg";
 import cancel from "../assets/cancel.svg";
 import replyToMessage from "../assets/reply.svg";
 import done from "../assets/done.svg";
-import Textfield from "../elements/Textfield";
+import edit from "../assets/edit.svg";
 
-const MessageCard = props => {
+import deleteIcon from "../assets/delete.svg";
+
+import Textfield from "../elements/Textfield";
+import { editMessage, deleteRequest } from "../helpers/functions";
+
+const MessageCard = (props) => {
   const [status, setStatus] = useState({
     editing: false,
     repliesOpen: false,
-    replying: false
+    replying: false,
   });
   const [edited, setEdited] = useState(props.data.text);
   const [reply, setReply] = useState("");
@@ -24,15 +28,23 @@ const MessageCard = props => {
   const editClicked = () => {
     setStatus({ ...status, editing: true });
   };
-  const changeEdited = e => {
+  const changeEdited = (e) => {
     setEdited(e.target.value);
   };
-  const submitEdited = e => {
+  console.log(props.data);
+  const submitEdited = (e) => {
     e.preventDefault();
-    console.log("hello");
     // call edit endpoint
-    // on success
-    setStatus({ ...status, editing: false });
+    editMessage(props.data._id, { text: edited })
+      .then((response) => {
+        // TODO: show success and edit message
+        setStatus({ ...status, editing: false });
+        console.log(response);
+      })
+      .catch((error) =>
+        // TODO: show error
+        console.log(error)
+      );
   };
 
   const toggleReply = () => {
@@ -43,18 +55,36 @@ const MessageCard = props => {
     }
   };
   const replyClicked = () => {
-    console.log("hii");
     setStatus({ ...status, replying: true, repliesOpen: true });
   };
-  const changeReply = e => {
+  const changeReply = (e) => {
     setReply(e.target.value);
   };
-  const submitReply = e => {
+  const submitReply = (e) => {
     e.preventDefault();
     console.log("hello");
-    // call edit endpoint
-    // on success
-    setStatus({ ...status, replying: false });
+    editMessage(props.data._id, { reply: reply })
+      .then((response) => {
+        // TODO: show success and add reply
+        setStatus({ ...status, replying: false });
+        console.log(response);
+      })
+      .catch((error) =>
+        // TODO: show error
+        console.log(error)
+      );
+  };
+
+  const deleteMessage = () => {
+    deleteRequest(props.data._id)
+      .then((response) => {
+        // TODO: show success and delete message
+        console.log(response);
+      })
+      .catch((error) => {
+        // TODO: show error
+        console.log(error);
+      });
   };
 
   const cancelAll = () => {
@@ -104,31 +134,26 @@ const MessageCard = props => {
       margin="10px"
       minHeight="150px"
       width="95%"
-      padding="10px"
-      margin="10px"
       direction="column"
       className={props.className}
     >
-      <FlexContainer direction="column" minHeight="150px">
+      <FlexContainer direction="column" minHeight="150px" padding="10px">
         <p className="dateText">
-          {date
-            .toString()
-            .split(" ")
-            .slice(0, 5)
-            .join(" ")}
+          {date.toString().split(" ").slice(0, 5).join(" ")}
         </p>
         <FlexContainer
           direction="row"
           alignItems={status.editing ? "center" : "flex-start"}
         >
-          <FlexContainer>
+          <FlexContainer alignItems="center">
             <Image
               width="30px"
               height="40px"
               src={person}
-              alt={props.data.from}
+              alt={props.data.authorName}
             />
-            <p className="text username">{props.data.from}:</p>
+            {/* TODO: username */}
+            <p className="text username">{props.data._id}:</p>
           </FlexContainer>
 
           {status.editing ? (
@@ -178,13 +203,22 @@ const MessageCard = props => {
             src={arrowDown}
             alt="View Replies"
           />
+          <Image
+            onClick={deleteMessage}
+            className="action"
+            width="20px"
+            height="20px"
+            src={deleteIcon}
+            alt="delete"
+          />
         </FlexContainer>
       </FlexContainer>
       {!status.repliesOpen ? null : (
         <FlexContainer width="90%" direction="column" alignSelf="center">
-          {props.data.replies.map(reply => (
+          {props.data.replies.map((reply) => (
             <p className="text replyStyling">
-              <span className="username">{reply.from}:</span>
+              {/* Show username of replier */}
+              {/* <span className="username">{reply.from}:</span> */}
               {reply.text}
             </p>
           ))}
@@ -206,23 +240,23 @@ const MessageCard = props => {
 };
 
 export default styled(MessageCard)`
-  background: ${props => props.theme.secondary};
-  font-family: ${props => props.theme.font};
+  background: ${(props) => props.theme.secondary};
+  font-family: ${(props) => props.theme.font};
   flex: 6;
   border-radius: 10px;
-  box-sizing: content-box;
+  box-sizing: borders-box;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.9);
   }
   .text {
-    color: ${props => props.theme.ghostWhite};
+    color: ${(props) => props.theme.ghostWhite};
     margin: 10px 5px;
     letter-spacing: 1.3px;
     line-height: 1.3;
   }
   .dateText {
-    color: ${props => props.theme.primary};
+    color: ${(props) => props.theme.primary};
     margin: 10px 5px 0px 5px;
     font-size: 0.7rem;
     margin-left: auto;
@@ -236,7 +270,7 @@ export default styled(MessageCard)`
     padding: 5px;
     cursor: pointer;
     &:hover {
-      background: ${props => props.theme.ghostWhite};
+      background: ${(props) => props.theme.ghostWhite};
     }
   }
   .replyStyling {
@@ -250,7 +284,7 @@ export default styled(MessageCard)`
     align-self: center;
   }
   .username {
-    color: ${props => props.theme.primary};
+    color: ${(props) => props.theme.primary};
     font-weight: 700;
     margin-right: 5px;
   }

@@ -9,6 +9,7 @@ function UnauthenticatedApp() {
     <BrowserRouter>
       <Switch>
         <Route path="/signup" exact component={Signup} />
+        <Route path="/login" component={Login} />
         <Route component={Login} />
       </Switch>
     </BrowserRouter>

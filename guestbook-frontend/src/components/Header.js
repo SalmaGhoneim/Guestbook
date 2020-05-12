@@ -7,7 +7,7 @@ import person from "../assets/person.svg";
 import { AuthenticationContext } from "../contexts/AuthenticationContext";
 import Image from "../elements/Image";
 
-const Header = props => {
+const Header = (props) => {
   const { user } = useContext(AuthenticationContext);
   return (
     <FlexContainer
@@ -26,19 +26,22 @@ const Header = props => {
           src={person}
           alt={user.username}
         />
-        <p className="noMargin">{user.name}</p>
+        {!user || !user.user ? null : (
+          <p className="noMargin">{user.user.name}</p>
+        )}
+        {/* TODO: Add a logout button */}
       </FlexContainer>
     </FlexContainer>
   );
 };
 
 export default styled(Header)`
-  background: ${props => props.theme.primary};
+  background: ${(props) => props.theme.primary};
   position: sticky;
   top: 0;
   z-index: 1;
   .username {
-    color: ${props => props.theme.secondary};
+    color: ${(props) => props.theme.secondary};
     font-size: 0.8rem;
     position: absolute;
     right: 10px;

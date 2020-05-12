@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MessagesContainer from "../components/MessagesContainer";
 
-const Messages = props => {
+const Messages = (props) => {
   return (
     <FlexContainer
       minHeight="100vh"
@@ -27,14 +27,14 @@ const Messages = props => {
 };
 
 export default styled(Messages)`
-  background: ${props => props.theme.ghostWhite};
+  background: ${(props) => props.theme.ghostWhite};
   .flexGrow {
     flex: 1 0 auto;
   }
   .title {
-    font-family: ${props => props.theme.font};
+    font-family: ${(props) => props.theme.font};
     font-weight: 700;
-    color: ${props => props.theme.secondary};
+    color: ${(props) => props.theme.secondary};
     font-size: 2rem;
     margin: 50px 0px 50px 0px;
     letter-spacing: 3px;

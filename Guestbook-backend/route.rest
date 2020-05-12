@@ -1,26 +1,78 @@
-GET http://localhost:3000/messages
+GET http://localhost:3000/users/
 
 ###
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+
+{
+    "username":"mama",
+    "name" : "Salma mama Ghoneim",
+    "email": "mama@gmail.com",
+    "age":20,
+    "password": "123456",
+    "password1": "123456"
+}
+
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+# {
+#     "email": "sasa@gmail.com",
+#     "password": "123456"
+# }
+# {
+#     "email": "lala@gmail.com",
+#     "password": "123456"
+# }
+{
+    "email": "mama@gmail.com",
+    "password": "123456"
+}
+
+
+
+### Messages
+
+GET http://localhost:3000/messages
+credentials: 'include'
+Authorization: jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI5NWJiMmE0ZGRkNjE1Zjg0N2UxNzMiLCJuYW1lIjoiU2FsbWEgbWFtYSBHaG9uZWltIiwiZW1haWwiOiJtYW1hQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEpzcUFHZTlOTEZZd2JqMGowM24vNi41dWYxQXQuUWZvZFJHSVV6aXVVSG5RcXp3cEJCdE0uIiwiYWdlIjoyMCwidXNlcm5hbWUiOiJtYW1hIiwic2lnbnVwRGF0ZSI6IjIwMjAtMDUtMTFUMTQ6MDU6MzguMzQ1WiIsIl9fdiI6MCwiaWF0IjoxNTg5MjA1OTU4fQ.8m31EhotBvf3V-XvfqYQiMJ_vhMzwxtRWSV6UZfC-4o 
+
+
+###
+
 GET http://localhost:3000/messages/5eb5bdf67988351302b77beb
 
+
 ###
+
 POST http://localhost:3000/messages
 Content-Type: application/json
 
 {
-    "text": "New message"
+    "text": "mama's messages"
 }
 
 ###
-DELETE http://localhost:3000/messages/5eb5bdf67988351302b77beb
+DELETE http://localhost:3000/messages/5eb9f0d15548bb72597a4df3
+
 
 ###
 
-PATCH http://localhost:3000/messages/5eb5ce6f537b1b222914392e
+PATCH http://localhost:3000/messages/5eb9585b62c47c144a949d13
 Content-Type: application/json
 
 {
-    "text": "Updated message 3"
+    "reply": "I am lala"
 }
 
+    # "text": "sasa's message updated"
+
+# sasa's token
+# Authorization: jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI5NTgxYzYyYzQ3YzE0NGE5NDlkMTIiLCJuYW1lIjoiU2FsbWEgR2hvbmVpbSIsImVtYWlsIjoic2FzYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCQ4cDBIM3NnOXV0cGJGcEpLaXpXYnNlZ0lOLm9HRzMvd3hiRVpyaEI1STVlRllxbGdZS1FCaSIsImFnZSI6MjAsInVzZXJuYW1lIjoic2FzYSIsInNpZ251cERhdGUiOiIyMDIwLTA1LTExVDEzOjUwOjIwLjU1MFoiLCJfX3YiOjAsImlhdCI6MTU4OTIwNTU5MH0.v5fcviviRz6ptwlg3plSp0QYO5I6OkQqJ84YALkR6tI
+# lala's token
+# Authorization: : jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI5NTlmYmFlMmVkOTE0Yjc2N2Y3YjQiLCJuYW1lIjoiU2FsbWEgbGFsYSBHaG9uZWltIiwiZW1haWwiOiJsYWxhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJHRiYjQ0OC5TUVoxajRWMnVNTHMwcC50emR0a201c0I4NTlUZUFqUktMZ29uNGM3UkFXN0RxIiwiYWdlIjoyMCwidXNlcm5hbWUiOiJsYWxhIiwic2lnbnVwRGF0ZSI6IjIwMjAtMDUtMTFUMTM6NTg6MTkuODkzWiIsIl9fdiI6MCwiaWF0IjoxNTg5MjA1ODE5fQ.6sMf94oNZGzYXmKFyyB1_E_o71LZhOZjlFwAA2VAF2A
+# mama's token
+# Authorization: jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI5NWJiMmE0ZGRkNjE1Zjg0N2UxNzMiLCJuYW1lIjoiU2FsbWEgbWFtYSBHaG9uZWltIiwiZW1haWwiOiJtYW1hQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEpzcUFHZTlOTEZZd2JqMGowM24vNi41dWYxQXQuUWZvZFJHSVV6aXVVSG5RcXp3cEJCdE0uIiwiYWdlIjoyMCwidXNlcm5hbWUiOiJtYW1hIiwic2lnbnVwRGF0ZSI6IjIwMjAtMDUtMTFUMTQ6MDU6MzguMzQ1WiIsIl9fdiI6MCwiaWF0IjoxNTg5MjA1OTU4fQ.8m31EhotBvf3V-XvfqYQiMJ_vhMzwxtRWSV6UZfC-4o 
 
